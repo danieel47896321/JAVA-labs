@@ -1,1 +1,1 @@
-sce jave labs and hw solutions
+sce java labs and hw solutions
