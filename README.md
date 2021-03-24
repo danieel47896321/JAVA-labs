@@ -1,1 +1,1 @@
-# SCE---Java-Labs-and-HW-solutions
+sce jave labs and hw solutions
