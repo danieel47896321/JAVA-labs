@@ -1,0 +1,106 @@
+package lab2;
+import java.util.Stack;
+public class MainClass {
+	public static void main(String[] args) {	
+		
+		//create java stack and print
+		Stack<Integer> stack = new Stack<>();
+		stack.push(4);
+		stack.push(7);
+		stack.push(6);
+		stack.push(1);
+		System.out.println("Stack: "+stack);
+
+		//create stack1 and print 
+		Stack1 stack1 = new Stack1();
+		stack1.push(5);
+		stack1.push(4);
+		stack1.push(8);
+		stack1.push(2);
+		System.out.println("Stack1: "+stack1+"\n\n---Reverse Stacks:\n");
+		
+		stack=getReverseStack(stack);
+		System.out.println("Stack: "+stack);
+		stack1=getReverseStack(stack1);
+		System.out.println("Stack1: "+stack1+"\n\n---Max Stacks:\n");
+		
+		stack=getMaxStack(stack);
+		System.out.println("Stack: "+stack);
+		stack1=getMaxStack(stack1);
+		System.out.println("Stack1: "+stack1+"\n\n---Even Stacks:\n");
+		
+		stack=getEvenStack(stack);
+		System.out.println("Stack: "+stack);
+		stack1=getEvenStack(stack1);
+		System.out.println("Stack1: "+stack1+"\n");
+	}
+	public static Stack<Integer> getReverseStack(Stack<Integer> stack) {  //reverse
+		Stack<Integer> temp=new Stack <Integer> ();
+		while(!stack.isEmpty()) 
+			temp.push(stack.pop());
+		return temp;
+	} //end getReverseStack
+	
+	public static Stack1 getReverseStack(Stack1 stack) { //reverse
+		Stack1 temp=new Stack1();
+		while(!stack.empty()) {
+			temp.push(stack.pop());
+		}
+		return temp;
+		
+	} //end getReverseStack
+	
+	public static Stack<Integer> getMaxStack(Stack<Integer> stack) { //max stack
+		Stack<Integer> temp=new Stack <Integer> ();
+		int max=stack.pop();
+		while(!stack.empty()) {
+			if(stack.peek()>max) {
+				temp.push(max);
+				max=stack.pop();
+			}
+			else {
+				temp.push(stack.pop());
+			}
+		}
+		temp=getReverseStack(temp);
+		temp.push(max); 
+		return temp;
+	} //end getMaxStack
+	
+	static Stack1 getMaxStack(Stack1 stack) { //max stack
+		Stack1 temp=new Stack1();
+		int max=stack.pop();
+		while(!stack.empty()) {
+			if(stack.top()>max) {
+				temp.push(max);
+				max=stack.pop();
+			}
+			else {
+				temp.push(stack.pop());
+			}
+		}
+		temp=getReverseStack(temp);
+		temp.push(max); 
+		return temp;
+	} //end getMaxStack
+	
+	public static  Stack<Integer> getEvenStack(Stack<Integer> stack){ //even stack
+		Stack<Integer> temp=new Stack <Integer> ();
+		while(!stack.isEmpty()) {
+			Integer number=stack.pop();
+			if (number%2==0)
+				temp.push(number);
+		}
+		return temp;
+	} //end getEvenStack
+	
+	public static Stack1 getEvenStack(Stack1 stack) { //even stack
+		Stack1 temp=new Stack1();
+		while(!stack.empty()) {
+			int number = stack.pop();
+			if(number%2==0)
+				temp.push(number);
+		}
+		return temp;
+	} //end getEvenStack
+}
