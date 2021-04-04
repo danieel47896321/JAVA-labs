@@ -1,1 +1,2 @@
-sce java labs and hw solutions
+java labs and hw solutions.
+java projects.
