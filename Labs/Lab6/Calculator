@@ -1,0 +1,322 @@
+package lab6;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextField;
+
+public class Calculator {
+	public static int num=0;
+	public static float oldsum=0;
+	public static float sum=0;
+	public static float lastnum=0;
+	public static float clean=0;
+	public static String op="";
+	public static void main(String[] args) {
+		//frame:
+		JFrame frame = new JFrame("Java Swing Calculator"); 
+		//text fields:
+		JTextField result = new JTextField("0");
+		SetMenu(frame);
+		SetTextField(frame,result);
+		SetBottonNumbers(frame,result);
+		SetBottonOperation(frame,result);
+		frame.setSize(385,250);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		frame.setVisible(true); 
+	}
+	public static void ListenClears(JFrame frame,JTextField result,JButton buttons[]) { 
+		buttons[10].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(result.getText().length()>1) {
+					String temp = result.getText().substring(0, result.getText().length()-1);
+					sum=(int)sum/10;
+					result.setText(temp);
+				}
+				else {
+					result.setText("0");
+					sum=0;
+					lastnum=0;
+					op="";	
+					clean=0;
+				}
+			}
+		});
+		buttons[11].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					result.setText("0");
+					sum=0;
+					lastnum=0;
+					op="";	
+					clean=0;
+			}
+		});
+		buttons[12].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					result.setText("0");
+					sum=0;
+					lastnum=0;
+					op="";	
+					clean=0;
+			}
+		});
+	}
+	public static void ListenOperation(JFrame frame,JTextField result,JButton buttons[]) { // sell all the buttons
+		buttons[0].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				op="+/-";
+				Calc(-1, result);
+			}
+		});
+		buttons[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+".");
+				sum=Float.valueOf(result.getText());
+				op="dot";
+			}
+		});
+		buttons[2].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"+");
+				op="add";
+			}
+		});
+		buttons[3].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+" = "+String.valueOf(sum));
+				oldsum=sum;
+				sum=0;
+				lastnum=0;
+				op="";
+				clean=0;
+			}
+		});
+		buttons[4].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"-");
+				op="sub";
+			}
+		});
+		buttons[5].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"%");
+				op="mod";
+			}
+		});
+		buttons[6].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"*");
+				op="mul";
+			}
+		});
+		buttons[7].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				op="1/x";
+				Calc(1, result);
+			}
+		});
+		buttons[8].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"/");
+				op="div";
+			}
+		});
+		buttons[9].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"^0.5");
+				op="sqrt";
+				Calc(1, result);
+			}
+		});
+	}
+	public static void Sum(JTextField result) {
+		result.setText(result.getText()+" = "+String.valueOf(sum));
+		oldsum=sum;
+		sum=0;
+		lastnum=0;
+		op="";
+		clean=0;
+	}
+	public static void Calc(float num,JTextField result) {
+		if(clean==0) {
+			result.setText(String.valueOf((int)num));
+			clean=1;
+		}
+		if(op=="") {
+			lastnum=lastnum*10+num;
+			sum=lastnum;
+		}
+		else {
+			lastnum=sum;
+			if(op=="add") 
+				sum=lastnum+num;
+			if(op=="sub") 
+				sum=lastnum-num;
+			if(op=="div") 
+				sum=lastnum/num;
+			if(op=="mul") 
+				sum=lastnum*num;
+			if(op=="mod")
+				sum=lastnum%num;
+			if(op=="sqrt")
+				sum=(float) Math.sqrt(lastnum);
+			if(op=="1/x")
+				sum=num/sum;
+			if(op=="+/-")
+				sum=lastnum*num;
+			if(op=="dot") {
+				float left = (int)sum;
+				if(sum%left==0)
+					sum+=num/10;
+				else 
+					sum = left+sum%left/10+num/10;
+				return;
+			}
+			Sum(result);
+		}
+	}
+	public static void ListenNumbers(JFrame frame,JTextField result,JButton button[]) { 
+		button[0].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"0");
+				Calc(0,result);
+			}
+		});
+        button[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"1");
+				Calc(1,result);
+			}
+		});
+        button[2].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"2");
+				Calc(2,result);
+			}
+		});
+        button[3].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"3");
+				Calc(3,result);
+			}
+		});
+        button[4].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"4");
+				Calc(4,result);
+			}
+		});
+        button[5].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"5");
+				Calc(5,result);
+			}
+		});
+        button[6].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"6");
+				Calc(6,result);
+			}
+		});
+        button[7].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"7");
+				Calc(7,result);
+			}
+		});
+        button[8].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"8");
+				Calc(8,result);
+			}
+		});
+        button[9].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				result.setText(result.getText()+"9");
+				Calc(9,result);
+			}
+		});
+	}
+	public static void SetTextField(JFrame frame,JTextField textField1) { // start 0 than show the result
+		textField1.setBounds(0, 0, 400, 20);
+		frame.add(textField1);
+	}
+	public static void SetMenu(JFrame frame) { 
+        //Create the menu bar.
+        JMenuBar menuBar = new JMenuBar();
+        JMenu File = new JMenu("File");
+        JMenu Help = new JMenu("Help");      
+        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem info = new JMenuItem("Info");
+        File.add(exit);
+        Help.add(info);
+        menuBar.add(File);
+        menuBar.add(Help);
+		frame.setJMenuBar(menuBar);
+		ListenMenu(frame,exit,info);
+	}
+	public static void ListenMenu(JFrame frame,JMenuItem exit,JMenuItem info) { 
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		info.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame1 = new JFrame("Calculator info"); 
+				JLabel label1 = new JLabel("Created by Daniel Elmaliach xD");  
+				label1.setBounds(0,-20,200,100);
+				frame1.setSize(200,100);
+				frame1.add(label1);
+				frame1.setLayout(null);
+				frame1.setVisible(true); 
+			}
+		});
+	}
+	public static void SetBottonOperation(JFrame frame,JTextField result) { 
+        JButton buttons[] = new JButton[13];
+        String op[]= {"+/-",".","+","=","-","%","*","1/x","/","sqrt","Backspace","CE","C"};
+        for(int i=0;i<13;i++) {
+        	buttons[i] = new JButton(op[i]);
+        	buttons[i].setName(""+i);
+        	if(i<4)
+        		buttons[i].setBounds(0+(i+1)*75, 157, 70, 30);
+        	if(3<i && i<6)
+        		buttons[i].setBounds(0+(i-1)*75, 122, 70, 30);
+        	if(6<=i && i<8)
+        		buttons[i].setBounds(0+(i-3)*75, 87, 70, 30);
+        	if(8<=i && i<10)
+        		buttons[i].setBounds(0+(i-5)*75, 52, 70, 30);
+        	if(i==10)
+        		buttons[i].setBounds(0, 20, 100, 30);
+        	if(11<=i && i<13)
+        		buttons[i].setBounds(0+(i-8)*75, 20, 70, 30);
+    		frame.add(buttons[i]);
+        }
+        ListenOperation(frame,result,buttons);
+		ListenClears(frame,result,buttons);
+
+	}	
+	public static void SetBottonNumbers(JFrame frame,JTextField result) { 
+        JButton buttons[] = new JButton[10];
+        for(int i=0;i<10;i++) {
+        	buttons[i] = new JButton(""+i);
+        	if(i==0)
+        		buttons[i].setBounds(0, 157, 70, 30);
+        	if(i==1 || i==2 || i==3)
+        		buttons[i].setBounds(0+(i-1)*75, 122, 70, 30);
+        	if(i==4 || i==5 || i==6)
+        		buttons[i].setBounds(0+(i-4)*75, 87, 70, 30);
+        	if(i==7 || i==8 || i==9)
+        		buttons[i].setBounds(0+(i-7)*75, 52, 70, 30);
+    		frame.add(buttons[i]);
+        }
+		ListenNumbers(frame,result,buttons);
+	}
+}
