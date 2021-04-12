@@ -1,0 +1,21 @@
+package Program;
+import components.*;
+
+
+/**
+ * @author Daniel Elmaliach
+ * @ID 206068629
+ * The Class Game.
+ */
+public class Game {
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
+	public static void main(String[] args) {
+		MainOffice game=new MainOffice(5, 4);
+		game.play(60);
+	}
+}
