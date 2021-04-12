@@ -1,0 +1,127 @@
+package lab6;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+public class LunarPhases {
+  public static void main(String[] args) {
+		myFrame lunarPhasesFrame = new myFrame("Lunar Phases");
+	    lunarPhasesFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		lunarPhasesFrame.setSize(300,600);
+		lunarPhasesFrame.setVisible(true);
+  }
+}
+class myFrame extends JFrame implements ActionListener {
+  private static final long serialVersionUID = 1L;
+  final static int NUM_IMAGES = 8;
+  final static int START_INDEX = 3;
+  final static String IMAGES_PATH = "C:\\Users\\Daniel\\eclipse-workspace\\Labs\\Lab6\\lab6\\";
+  final static String IMAGES_SUFIX = ".gif";
+  final static String COMBO_BOX_CHANGED_COMMAND = "comboBoxChanged";
+  final static String[] PHASES = { "New", "Waxing Crescent", "First Quarter", 
+  								 "Waxing Gibbous", "Full", "Waning Gibbous", 
+  								 "Third Quarter", "Waning Crescent" };
+  private Image[] images;
+  JPanel mainPanel, selectPanel;
+  myPanel displayPanel;
+  JComboBox<String> phaseChoices;
+
+  // Constructor
+  public myFrame(String title) {
+  	super(title);
+	// Create the main panel to contain the two sub panels.
+  	mainPanel = new JPanel();
+	// Create the phase selection and display panels.
+  	selectPanel = new JPanel();
+    displayPanel = new myPanel();
+	// Add the select and display panels to the main panel.
+    mainPanel.add(selectPanel);
+    mainPanel.add(displayPanel);
+	// Create combo box with lunar phase choices.
+	phaseChoices = new JComboBox<String>();
+	// Add border around the select panel.
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+    mainPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+	selectPanel.setBorder(BorderFactory.createCompoundBorder(
+	BorderFactory.createTitledBorder("Select Phase"), 
+	BorderFactory.createEmptyBorder(5,5,5,5)));
+	selectPanel.add(phaseChoices);
+    this.add(mainPanel);
+	// Add moon phases combo box to select panel and image label to displayPanel.
+	for(int i=0;i<PHASES.length;i++) 
+		phaseChoices.addItem(PHASES[i]);
+	// Listen to events from combo box.
+	phaseChoices.addActionListener(this);	
+	// Load images.
+	loadImages();	
+	// Set the start image
+	displayPanel.setImage(images[START_INDEX]);
+  }
+
+  // Load images of the phases of the moon.
+  private void loadImages() {
+	  images = new Image[NUM_IMAGES];
+		// Get the images and put them into an array of ImageIcon.
+	  for (int i = 0; i < NUM_IMAGES; i++) {
+		  String imageName = IMAGES_PATH + i + IMAGES_SUFIX;
+		  try { images[i] = ImageIO.read(new File(imageName)); } 
+		  catch (IOException e) { e.printStackTrace(); }
+	  }
+  }
+  // Implementation of ActionListener interface.
+  public void actionPerformed(ActionEvent event) {
+		if(event.getSource().equals(phaseChoices)) {
+			String name = phaseChoices.getItemAt(phaseChoices.getSelectedIndex());
+			switch(name)
+			{
+			case "New":
+				displayPanel.setImage(images[0]);
+				break;
+			case "Waxing Crescent":
+				displayPanel.setImage(images[1]);
+				break;
+			case "First Quarter":
+				displayPanel.setImage(images[2]);
+				break;
+			case "Waxing Gibbous":
+				displayPanel.setImage(images[3]);
+				break;
+			case "Full":
+				displayPanel.setImage(images[4]);
+				break;
+			case "Waning Gibbous":
+				displayPanel.setImage(images[5]);
+				break;
+			case "Third Quarter":
+				displayPanel.setImage(images[6]);
+				break;
+			case "Waning Crescent":
+				displayPanel.setImage(images[7]);
+				break;
+			default:
+				displayPanel.setImage(images[0]);
+				break;		
+			}
+			repaint();
+		}
+  }
+}
+class myPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+	private Image image;
+	public myPanel() {	
+		// Add border around the display panel.
+		setBorder(BorderFactory.createLoweredBevelBorder());	
+		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),getBorder()));
+		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Display Phase"),getBorder()));
+		image = null;
+  }
+	public void setImage(Image img){ image = img; }
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image, 30, 40, 215, 200,this);
+	}	
+}
