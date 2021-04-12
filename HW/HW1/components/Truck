@@ -1,0 +1,211 @@
+package components;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * @author Daniel Elmaliach
+ * @ID 206068629
+ * The Class Truck.
+ */
+public abstract class Truck implements Node{
+	
+	/** The id. */
+	private static int ID = 2000; 
+	
+	/** The truck ID. */
+	private int truckID;
+	
+	/** The license plate. */
+	private String licensePlate;
+	
+	/** The truck model. */
+	private String truckModel;
+	
+	/** The available. */
+	private boolean available;
+	
+	/** The time left. */
+	private int timeLeft;
+	
+	/** The packages. */
+	private ArrayList<Package> packages;
+	
+	/**
+	 * Instantiates a new truck.
+	 */
+	public Truck() {
+		truckID = ID++;	
+		truckModel = RandomModel();
+		licensePlate = RandomLicensePlate();
+		available = true;
+		timeLeft = 0;
+		packages = new ArrayList<Package>();
+	}
+	
+	/**
+	 * Instantiates a new truck.
+	 *
+	 * @param licensePlate the license plate
+	 * @param truckModel the truck model
+	 */
+	public Truck(String licensePlate, String truckModel) {
+		truckID = ID++;
+		this.licensePlate = licensePlate;
+		this.truckModel = truckModel;
+		available = true;
+		timeLeft = 0;
+		packages = new ArrayList<Package>();
+	}
+	
+	/**
+	 * Random model.
+	 *
+	 * @return the string
+	 */
+	public String RandomModel() {
+		Random rand = new Random();
+		return "M" + rand.nextInt(5);
+	}
+	
+	/**
+	 * Random license plate.
+	 *
+	 * @return the string
+	 */
+	public String RandomLicensePlate() {
+		Random rand = new Random();
+		int firstPart = 100 + rand.nextInt(899), secondPart = 10 + rand.nextInt(89), thirdPart = 100 + rand.nextInt(899);
+		return firstPart + "-" + secondPart + "-" + thirdPart;
+	}
+	
+	/**
+	 * Removes the package.
+	 *
+	 * @param p the p
+	 */
+	public void RemovePackage(Package p) { getPackages().remove(p); }
+	
+	/**
+	 * Reduce time.
+	 */
+	public void ReduceTime() { setTimeLeft(getTimeLeft()-1); }
+	
+	/**
+	 * Sets the truck ID.
+	 *
+	 * @param truckID the new truck ID
+	 */
+	public void setTruckID(int truckID) { this.truckID = truckID; }
+	
+	/**
+	 * Sets the license plate.
+	 *
+	 * @param licensePlate the new license plate
+	 */
+	public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+	
+	/**
+	 * Sets the truck model.
+	 *
+	 * @param truckModel the new truck model
+	 */
+	public void setTruckModel(String truckModel) {  this.truckModel = truckModel; }
+	
+	/**
+	 * Sets the available.
+	 *
+	 * @param available the new available
+	 */
+	public void setAvailable(boolean available) { this.available = available; }
+	
+	/**
+	 * Sets the time left.
+	 *
+	 * @param timeLeft the new time left
+	 */
+	public void setTimeLeft(int timeLeft) { this.timeLeft = timeLeft; }
+	
+	/**
+	 * Sets the packages.
+	 *
+	 * @param packages the new packages
+	 */
+	public void setPackages(ArrayList<Package> packages) { this.packages = packages; }
+	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public int getID() { return ID; }
+	
+	/**
+	 * Gets the truck ID.
+	 *
+	 * @return the truck ID
+	 */
+	public int getTruckID() { return truckID; }
+	
+	/**
+	 * Gets the license plate.
+	 *
+	 * @return the license plate
+	 */
+	public String getLicensePlate() { return licensePlate; }
+	
+	/**
+	 * Gets the truck model.
+	 *
+	 * @return the truck model
+	 */
+	public String getTruckModel() { return truckModel; }
+	
+	/**
+	 * Gets the available.
+	 *
+	 * @return the available
+	 */
+	public boolean getAvailable() { return available; }
+	
+	/**
+	 * Gets the time left.
+	 *
+	 * @return the time left
+	 */
+	public int getTimeLeft() { return timeLeft; }
+	
+	/**
+	 * Gets the packages.
+	 *
+	 * @return the packages
+	 */
+	public ArrayList<Package> getPackages() { return packages; }
+	
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
+	public String toString() { return "[truckID=" + truckID + ", licensePlate=" + licensePlate + ", truckModel=" + truckModel + ", available=" + available + Additional() + "]"; }
+	
+	/**
+	 * Additional.
+	 *
+	 * @return the string
+	 */
+	public abstract String Additional();
+	
+	/**
+	 * Equals.
+	 *
+	 * @param object the object
+	 * @return true, if successful
+	 */
+	public boolean equals(Object object) {
+		if(object == null || this.getClass() != object.getClass()) 
+			return false; 
+		Truck other = (Truck)object;
+		return truckID == other.truckID && licensePlate.equals(other.licensePlate) && truckModel.equals(other.truckModel) && available == other.available && timeLeft == other.timeLeft && packages.equals(other.packages);
+	}
+}
