@@ -1,0 +1,67 @@
+package components;
+
+/**
+ * @author Daniel Elmaliach
+ * @ID 206068629
+ * The Class StandardPackage.
+ */
+public class StandardPackage extends Package{
+	
+	/** The weight. */
+	private double weight;
+	
+	/**
+	 * Instantiates a new standard package.
+	 *
+	 * @param priority the priority
+	 * @param senderAddress the sender address
+	 * @param destinationAdress the destination adress
+	 * @param weight the weight
+	 */
+	public StandardPackage (Priority priority, Address senderAddress, Address destinationAdress,double weight) {
+		super(priority, senderAddress, destinationAdress);
+		this.weight = weight;
+		System.out.println("Creating " + toString());
+	}
+	
+	/**
+	 * Sets the wight.
+	 *
+	 * @param weight the new wight
+	 */
+	public void setWight(double weight) { this.weight = weight; }
+	
+	/**
+	 * Gets the weight.
+	 *
+	 * @return the weight
+	 */
+	public double getWeight() { return weight; }
+	
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
+	public String toString() { return "StandardPackage " + super.toString(); }
+	
+	/**
+	 * Equals.
+	 *
+	 * @param object the object
+	 * @return true, if successful
+	 */
+	public boolean equals(Object object) {
+		if(object == null || this.getClass() != object.getClass() || !super.equals(object)) 
+			return false; 
+		StandardPackage other = (StandardPackage)object;
+		return weight == other.weight;
+	}
+	
+	/**
+	 * Additional.
+	 *
+	 * @return the string
+	 */
+	public String Additional() { return "weight=" + getWeight(); }
+}
