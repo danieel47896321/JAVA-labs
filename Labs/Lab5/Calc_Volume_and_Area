@@ -1,0 +1,82 @@
+package lab5;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Calc_Volume_and_Area {
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Box Volume & Area"); 
+		JTextField width = new JTextField("width");
+        JTextField height = new JTextField("height");
+        JTextField length = new JTextField("length");
+		final JLabel label1 = new JLabel("width :"); 
+		final JLabel label2 = new JLabel("height :"); 
+		final JLabel label3 = new JLabel("length :"); 
+		final JLabel label4 = new JLabel("volume"); 
+		final JLabel label5 = new JLabel("area");		
+        JButton button = new JButton("calculate");
+        button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String Volume=calcVolume(width,height,length);
+				String Area=calcArea(width,height,length);
+				label4.setText(Volume);
+				label5.setText(Area);
+			}
+		});
+		frame.setSize(400,180);
+		SetLabels(frame,label1,label2,label3,label4,label5);
+		SetTextField(frame,width,height,length);
+		SetBotton(frame,button);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		frame.setVisible(true); 
+	}
+	private static String calcArea(JTextField width,JTextField height,JTextField length) {
+		try {
+			int Area = 0;
+			Area += Integer.parseInt(length.getText())*Integer.parseInt(height.getText())*2;
+			Area += Integer.parseInt(length.getText())*Integer.parseInt(width.getText())*2;
+			Area += Integer.parseInt(width.getText())*Integer.parseInt(height.getText())*2;
+			return String.valueOf(Area);
+		}
+		catch(IllegalArgumentException X){ 
+			return "area";
+	    }	
+	}
+	private static String calcVolume(JTextField width,JTextField height,JTextField length) {
+		try {
+			return String.valueOf((Integer.parseInt(height.getText())) * (Integer.parseInt(width.getText())) * (Integer.parseInt(length.getText())));
+		}
+		catch(IllegalArgumentException X){ 
+			return "volume";
+        }
+	}
+	public static void SetTextField(JFrame frame,JTextField textField1,JTextField textField2,JTextField textField3) {
+		textField1.setBounds(125, 10, 110, 20);
+		textField2.setBounds(125, 45, 110, 20);
+		textField3.setBounds(125, 80, 110, 20);
+		frame.add(textField1);
+		frame.add(textField2);
+		frame.add(textField3);
+	}
+	public static void SetBotton(JFrame frame,JButton button) {
+		button.setBounds(15, 110, 100, 20);
+		frame.add(button);
+	}
+	public static void SetLabels(JFrame frame,JLabel label1,JLabel label2,JLabel label3,JLabel label4,JLabel label5) {
+		label1.setBounds(15, -30, 50, 100);
+		label2.setBounds(15, 5, 50, 100);
+		label3.setBounds(15, 40, 50, 100);
+		label4.setBounds(130, 70, 50, 100);
+		label5.setBounds(225, 70, 50, 100);
+		frame.add(label1); 
+		frame.add(label2); 
+		frame.add(label3); 
+		frame.add(label4); 
+		frame.add(label5); 
+	}
+}
