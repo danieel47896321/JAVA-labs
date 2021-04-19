@@ -1,0 +1,12 @@
+package lab7;
+public class HorsesRace {
+	public static void main(String[] args) {
+		String names[] = new String[] {"One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"};
+		Horse horses[] = new Horse[names.length];
+		FinishingLine finish = new FinishingLine();
+		for(int i=0;i<names.length;i++) {
+			horses[i] = new Horse(names[i],finish,300);
+			new Thread(horses[i]).start();
+		}
+	}
+}
