@@ -1,0 +1,21 @@
+package lab7;
+public class Horse implements Runnable {
+	private String id;
+	private FinishingLine f;
+	private int distanse;
+    
+  public Horse(String id, FinishingLine f, int distanse) {
+        this.id = id;
+        this.f = f;
+        this.distanse = distanse;
+  }
+  public String getID(){ return id; }
+	public void run() {
+		while( distanse > 0 ) {
+				System.out.println(id +":\t " + distanse + " meters to finish");
+				distanse-=20;
+				try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		} 
+		f.arrive(this);
+	}	
+}
