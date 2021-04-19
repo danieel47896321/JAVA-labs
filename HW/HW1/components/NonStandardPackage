@@ -1,31 +1,8 @@
 package components;
-
-/**
- * @author Daniel Elmaliach
- * @ID 206068629
- * The Class NonStandardPackage.
- */
 public class NonStandardPackage extends Package {
-	
-	/** The width. */
 	private int width;
-	
-	/** The length. */
 	private int length;
-	
-	/** The height. */
 	private int height;
-	
-	/**
-	 * Instantiates a new non standard package.
-	 *
-	 * @param priority the priority
-	 * @param senderAddress the sender address
-	 * @param destinationAdress the destination adress
-	 * @param width the width
-	 * @param length the length
-	 * @param height the height
-	 */
 	public NonStandardPackage(Priority priority, Address senderAddress,Address destinationAdress,int width, int length, int height) {
 		super(priority, senderAddress, destinationAdress);
 		this.width = width;
@@ -33,73 +10,17 @@ public class NonStandardPackage extends Package {
 		this.height = height;
 		System.out.println("Creating " + toString());
 	}
-
-	/**
-	 * Sets the width.
-	 *
-	 * @param width the new width
-	 */
 	public void setWidth(int width) { this.width = width; }
-	
-	/**
-	 * Sets the length.
-	 *
-	 * @param length the new length
-	 */
 	public void setLength(int length) { this.length = length; }
-	
-	/**
-	 * Sets the hight.
-	 *
-	 * @param height the new hight
-	 */
 	public void setHight(int height) { this.height = height; }
-	
-	/**
-	 * Gets the width.
-	 *
-	 * @return the width
-	 */
 	public int getWidth() { return width; }
-	
-	/**
-	 * Gets the length.
-	 *
-	 * @return the length
-	 */
 	public int getLength() { return length; }
-	
-	/**
-	 * Gets the height.
-	 *
-	 * @return the height
-	 */
 	public int getHeight() { return height; }
-	
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 */
-	public String toString() { return "NonStandardPackage " + super.toString(); }
-	
-	/**
-	 * Equals.
-	 *
-	 * @param object the object
-	 * @return true, if successful
-	 */
+	public String toString() { return "NonStandardPackage ["+super.toString() + ", width=" + width + ", length=" + length + ", height=" + height + "]"; }
 	public boolean equals(Object object) {
 		if(object == null || this.getClass() != object.getClass() || !super.equals(object)) 
 			return false; 
 		NonStandardPackage other = (NonStandardPackage)object;
 		return ( width == other.width && length == other.length && height == other.height);
 	}
-	
-	/**
-	 * Additional.
-	 *
-	 * @return the string
-	 */
-	public String Additional() { return "width=" + width + ", length=" + length + ", height=" + height; }
 }
