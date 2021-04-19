@@ -1,183 +1,48 @@
 package components;
-
 import java.util.ArrayList;
-
-/**
- * @author Daniel Elmaliach
- * @ID 206068629
- * The Class Package.
- */
 public abstract class Package {
-	
-	/** The id. */
 	private static int ID = 1000;
-	
-	/** The package ID. */
-	private int packageID;
-	
-	/** The priority. */
+	private final int packageID;
 	private Priority priority;
-	
-	/** The status. */
 	private Status status;
-	
-	/** The sender address. */
 	private Address senderAddress;
-	
-	/** The destination address. */
 	private Address destinationAddress;
-	
-	/** The tracking. */
 	private ArrayList<Tracking> tracking;
-	
-	/**
-	 * Instantiates a new package.
-	 *
-	 * @param priority the priority
-	 * @param senderAddress the sender address
-	 * @param destinationAdress the destination adress
-	 */
 	public Package(Priority priority, Address senderAddress, Address destinationAdress) {
 		this.packageID = ID++;
 		this.priority = priority;
 		this.senderAddress = senderAddress;
 		this.destinationAddress = destinationAdress;
-		this.status = components.Status.CREATION;
+		this.status = Status.CREATION;
 		tracking = new ArrayList<Tracking>();
-		addTracking(null, components.Status.CREATION);
+		tracking.add(new Tracking( MainOffice.getClock(), null, status));
 	}
-	
-	/**
-	 * Adds the tracking.
-	 *
-	 * @param node the node
-	 * @param status the status
-	 */
-	public void addTracking (Node node, Status status) {
-		Tracking track = new Tracking(MainOffice.getClock(), node, status);
-		tracking.add(track);
-	}
-	
-	/**
-	 * Prints the tracking.
-	 */
+	public void addTracking (Node node, Status status) { tracking.add(new Tracking(MainOffice.getClock(), node, status)); }
+	public void addTracking(Tracking tracking) { this.tracking.add(tracking); }
 	public void printTracking () {
-		System.out.println("TRACKING " + toString());
-		for(int i=0;i<tracking.size();i++)
-			System.out.println(tracking.get(i));
+		for (Tracking tracking : this.tracking)
+			System.out.println(tracking);
 	}
-	
-	/**
-	 * Sets the package ID.
-	 *
-	 * @param packageID the new package ID
-	 */
-	public void setPackageID(int packageID) { this.packageID = packageID; }
-	
-	/**
-	 * Sets the priority.
-	 *
-	 * @param priority the new priority
-	 */
+	public void addRecords(Status status, Node node) {
+		setStatus(status);
+		addTracking(node, status);
+	}
 	public void setPriority(Priority priority) { this.priority = priority; }
-	
-	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
 	public void setStatus(Status status) { this.status = status; }
-	
-	/**
-	 * Sets the sender address.
-	 *
-	 * @param senderAddress the new sender address
-	 */
 	public void setSenderAddress(Address senderAddress) { this.senderAddress = senderAddress; }
-	
-	/**
-	 * Sets the destination address.
-	 *
-	 * @param destinationAddress the new destination address
-	 */
 	public void setDestinationAddress(Address destinationAddress) { this.destinationAddress = destinationAddress; }
-	
-	/**
-	 * Sets the tracking.
-	 *
-	 * @param tracking the new tracking
-	 */
 	public void setTracking(ArrayList<Tracking> tracking) { this.tracking = tracking; }
-	
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
+	public String getName() { return "package " + getPackageID(); }
 	public int getID() { return ID; }
-	
-	/**
-	 * Gets the package ID.
-	 *
-	 * @return the package ID
-	 */
 	public int getPackageID() { return packageID; }
-	
-	/**
-	 * Gets the priority.
-	 *
-	 * @return the priority
-	 */
 	public Priority getPriority() { return priority; }
-	
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
 	public Status getStatus() { return status; }
-	
-	/**
-	 * Gets the sender address.
-	 *
-	 * @return the sender address
-	 */
 	public Address getSenderAddress() { return senderAddress; }
-	
-	/**
-	 * Gets the destination address.
-	 *
-	 * @return the destination address
-	 */
 	public Address getDestinationAddress() { return destinationAddress; }
-	
-	/**
-	 * Gets the tracking.
-	 *
-	 * @return the tracking
-	 */
 	public ArrayList<Tracking> getTracking() { return tracking; }
-	
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 */
-	public String toString() { return "[packageID=" + packageID + ", priority="+ priority +", status=" + status + ", startTime="+ tracking.get(0).getTime() + ", senderAddress=" + senderAddress + ", destinationAddress=" + destinationAddress + ", "+ Additional() +"]"; }
-	
-	/**
-	 * Additional.
-	 *
-	 * @return the string
-	 */
-	public abstract String Additional();
-	
-	/**
-	 * Equals.
-	 *
-	 * @param object the object
-	 * @return true, if successful
-	 */
+	public Branch getSenderBranch() { return MainOffice.getHub().getBranches().get(getSenderAddress().getZip()); }
+	public Branch getDestBranch() { return MainOffice.getHub().getBranches().get(getDestinationAddress().getZip()); }
+	public String toString() { return "packageID=" + packageID + ", priority=" + priority + ", status=" + status + ", senderAddress=" + senderAddress + ", destinationAddress=" + destinationAddress; }
 	public boolean equals(Object object) {
 		if(object == null || this.getClass() != object.getClass()) 
 			return false; 
