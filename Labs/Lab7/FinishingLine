@@ -1,0 +1,14 @@
+package lab7;
+public class FinishingLine {
+	public static int place = 0; 
+	public void arrive(Horse h) {
+		place+=1;
+		if(place==1) {
+			System.out.println("************************************************");
+			System.out.println("====> " + h.getID() + " finished first!");
+			System.out.println("************************************************");
+		}
+		else
+			System.out.println("====> " + h.getID() + " finished on " + place + " -th place");
+	}
+}
