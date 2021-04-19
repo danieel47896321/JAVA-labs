@@ -1,67 +1,18 @@
 package components;
-
-/**
- * @author Daniel Elmaliach
- * @ID 206068629
- * The Class SmallPackage.
- */
 public class SmallPackage extends Package{
-	
-	/** The acknowledge. */
 	private boolean acknowledge;
-	
-	/**
-	 * Instantiates a new small package.
-	 *
-	 * @param priority the priority
-	 * @param senderAddress the sender address
-	 * @param destinationAdress the destination adress
-	 * @param acknowledge the acknowledge
-	 */
 	public SmallPackage(Priority priority, Address senderAddress, Address destinationAdress, boolean acknowledge) {
 		super(priority, senderAddress, destinationAdress);
 		this.acknowledge = acknowledge;
 		System.out.println("Creating "+toString());
 	}
-	
-	/**
-	 * Sets the acknowledge.
-	 *
-	 * @param acknowledge the new acknowledge
-	 */
 	public void setAcknowledge(boolean acknowledge) { this.acknowledge = acknowledge; }
-	
-	/**
-	 * Gets the acknowledge.
-	 *
-	 * @return the acknowledge
-	 */
-	public boolean getAcknowledge() { return acknowledge; }
-	
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 */
-	public String toString() { return "SmallPackage " + super.toString(); }
-	
-	/**
-	 * Equals.
-	 *
-	 * @param object the object
-	 * @return true, if successful
-	 */
+	public boolean isAcknowledge() { return acknowledge; }
+	public String toString() { return "SmallPackage ["+ super.toString() +", acknowledge=" + acknowledge + "]"; }
 	public boolean equals(Object object) {
 		if(object == null || this.getClass() != object.getClass() || !super.equals(object)) 
 			return false; 
 		SmallPackage other = (SmallPackage)object;
 		return acknowledge == other.acknowledge;
 	}
-	
-	/**
-	 * Additional.
-	 *
-	 * @return the string
-	 */
-	public String Additional() { return "acknoledge=" + getAcknowledge();}
 }
