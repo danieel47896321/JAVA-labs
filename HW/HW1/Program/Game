@@ -1,19 +1,6 @@
 package Program;
-import components.*;
-
-
-/**
- * @author Daniel Elmaliach
- * @ID 206068629
- * The Class Game.
- */
+import components.MainOffice;
 public class Game {
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
 		MainOffice game=new MainOffice(5, 4);
 		game.play(60);
