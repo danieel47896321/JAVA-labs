@@ -1,27 +1,7 @@
 package components;
-/**
- * @author Daniel Elmaliach
- * @ID 206068629
- * The Interface Node.
- */
 public interface Node {
-	
-	/**
-	 * Collect package.
-	 *
-	 * @param p the p
-	 */
 	void collectPackage(Package p);
-	
-	/**
-	 * Deliver package.
-	 *
-	 * @param p the p
-	 */
 	void deliverPackage(Package p);
-	
-	/**
-	 * Work.
-	 */
 	void work();
+	public String getName();
 }
