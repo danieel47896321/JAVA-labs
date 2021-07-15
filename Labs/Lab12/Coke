@@ -1,0 +1,6 @@
+package lab12;
+
+public class Coke implements Item{
+	public String name() { return "Coke"; };
+	public float price() { return 12; };
+}
