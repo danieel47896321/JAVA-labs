@@ -1,52 +1,118 @@
 package components;
+
 import java.util.ArrayList;
+
+
 public abstract class Package {
-	private static int ID = 1000;
-	private final int packageID;
+	private static int countID=1000;
+	final private int packageID;
 	private Priority priority;
 	private Status status;
 	private Address senderAddress;
 	private Address destinationAddress;
-	private ArrayList<Tracking> tracking;
-	public Package(Priority priority, Address senderAddress, Address destinationAdress) {
-		this.packageID = ID++;
-		this.priority = priority;
-		this.senderAddress = senderAddress;
-		this.destinationAddress = destinationAdress;
-		this.status = Status.CREATION;
-		tracking = new ArrayList<Tracking>();
+	private ArrayList<Tracking> tracking = new ArrayList<Tracking>();
+	
+	
+	public Package(Priority priority, Address senderAddress,Address destinationAdress) {
+		packageID = countID++;
+		this.priority=priority;
+		this.status=Status.CREATION;
+		this.senderAddress=senderAddress;
+		this.destinationAddress=destinationAdress;
 		tracking.add(new Tracking( MainOffice.getClock(), null, status));
 	}
-	public void addTracking (Node node, Status status) { tracking.add(new Tracking(MainOffice.getClock(), node, status)); }
-	public void addTracking(Tracking tracking) { this.tracking.add(tracking); }
-	public void printTracking () {
-		for (Tracking tracking : this.tracking)
-			System.out.println(tracking);
+
+	
+	public Priority getPriority() {
+		return priority;
 	}
+
+	
+	public void setPriority(Priority priority) {
+		this.priority = priority;
+	}
+
+	
+	public Status getStatus() {
+		return status;
+	}
+
+	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	
+	public int getPackageID() {
+		return packageID;
+	}
+	
+	
+	
+	public Address getSenderAddress() {
+		return senderAddress;
+	}
+
+	
+	public void setSenderAddress(Address senderAddress) {
+		this.senderAddress = senderAddress;
+	}
+
+	
+	public Address getDestinationAddress() {
+		return destinationAddress;
+	}
+
+	public String getName() {
+		return "package " + getPackageID(); 
+	}
+	
+	
+	public void setDestinationAddress(Address destinationAdress) {
+		this.destinationAddress = destinationAdress;
+	}
+
+	
+	public void addTracking(Node node, Status status) {
+		tracking.add(new Tracking(MainOffice.getClock(), node, status));
+	}
+	
+	
+	public void addTracking(Tracking t) {
+		tracking.add(t);
+	}
+	
+	
+	public ArrayList<Tracking> getTracking() {
+		return tracking;
+	}
+
+	
+	public void printTracking() {
+		for (Tracking t: tracking)
+			System.out.println(t);
+	}
+	
+	
+	public Branch getSenderBranch() {
+		return MainOffice.getHub().getBranches().get(getSenderAddress().getZip());
+	}
+	
+	
+	public Branch getDestBranch() {
+		return MainOffice.getHub().getBranches().get(getDestinationAddress().getZip());
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "packageID=" + packageID + ", priority=" + priority + ", status=" + status + ", senderAddress=" + senderAddress + ", destinationAddress=" + destinationAddress;
+	}
+
 	public void addRecords(Status status, Node node) {
 		setStatus(status);
 		addTracking(node, status);
 	}
-	public void setPriority(Priority priority) { this.priority = priority; }
-	public void setStatus(Status status) { this.status = status; }
-	public void setSenderAddress(Address senderAddress) { this.senderAddress = senderAddress; }
-	public void setDestinationAddress(Address destinationAddress) { this.destinationAddress = destinationAddress; }
-	public void setTracking(ArrayList<Tracking> tracking) { this.tracking = tracking; }
-	public String getName() { return "package " + getPackageID(); }
-	public int getID() { return ID; }
-	public int getPackageID() { return packageID; }
-	public Priority getPriority() { return priority; }
-	public Status getStatus() { return status; }
-	public Address getSenderAddress() { return senderAddress; }
-	public Address getDestinationAddress() { return destinationAddress; }
-	public ArrayList<Tracking> getTracking() { return tracking; }
-	public Branch getSenderBranch() { return MainOffice.getHub().getBranches().get(getSenderAddress().getZip()); }
-	public Branch getDestBranch() { return MainOffice.getHub().getBranches().get(getDestinationAddress().getZip()); }
-	public String toString() { return "packageID=" + packageID + ", priority=" + priority + ", status=" + status + ", senderAddress=" + senderAddress + ", destinationAddress=" + destinationAddress; }
-	public boolean equals(Object object) {
-		if(object == null || this.getClass() != object.getClass()) 
-			return false; 
-		Package other = (Package)object;
-		return packageID == other.packageID && priority == other.priority && status == other.status && senderAddress.equals(other.senderAddress) && destinationAddress.equals(other.destinationAddress) && tracking.equals(other.tracking);
-	}
+	
+	
 }
