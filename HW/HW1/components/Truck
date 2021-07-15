@@ -1,64 +1,92 @@
 package components;
+
 import java.util.ArrayList;
 import java.util.Random;
-public abstract class Truck implements Node{
-	private static int ID = 2000; 
-	private final int truckID;
+
+
+public  abstract class Truck implements Node {
+	private static int countID=2000;
+	final private int truckID;
 	private String licensePlate;
 	private String truckModel;
-	private boolean available = true;
-	private int timeLeft = 0;
-	private ArrayList<Package> packages = new ArrayList<Package>();;
+	private boolean available=true;
+	private int timeLeft=0;
+	private ArrayList<Package> packages=new ArrayList<Package>();
+		
+	
+	//default random constructor
 	public Truck() {
-		truckID = ID++;	
-		truckModel = RandomModel();
-		licensePlate = RandomLicensePlate();
+		truckID=countID++;
+		Random r= new Random();
+		licensePlate=(r.nextInt(900)+100)+"-"+(r.nextInt(90)+10)+"-"+(r.nextInt(900)+100);
+		truckModel="M"+r.nextInt(5);
+		System.out.print("Creating ");
 	}
-	public Truck(String licensePlate, String truckModel) {
-		truckID = ID++;
-		this.licensePlate = licensePlate;
-		this.truckModel = truckModel;
+
+	
+	public Truck(String licensePlate,String truckModel) {
+		truckID=countID++;
+		this.licensePlate=licensePlate;
+		this.truckModel=truckModel;
+		System.out.print("Creating ");
 	}
 	
-	public String RandomModel() {
-		Random rand = new Random();
-		return "M" + rand.nextInt(5);
+	
+	public ArrayList<Package> getPackages() {
+		return packages;
 	}
-	public String RandomLicensePlate() {
-		Random rand = new Random();
-		int firstPart = 100 + rand.nextInt(899), secondPart = 10 + rand.nextInt(89), thirdPart = 100 + rand.nextInt(899);
-		return firstPart + "-" + secondPart + "-" + thirdPart;
+
+
+	public int getTimeLeft() {
+		return timeLeft;
 	}
-	public void addPackage(Package p) { this.packages.add(p); }
-	public void RemovePackage(Package p) { getPackages().remove(p); }
-	public void ReduceTime() { setTimeLeft(getTimeLeft()-1); }
-	public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
-	public void setTruckModel(String truckModel) {  this.truckModel = truckModel; }
-	public void setAvailable(boolean available) { this.available = available; }
-	public void setTimeLeft(int timeLeft) { this.timeLeft = timeLeft; }
-	public void setPackages(ArrayList<Package> packages) { this.packages = packages; }
-	public String getName() { return this.getClass().getSimpleName()+" "+ getTruckID(); }
-	public int getID() { return ID; }
-	public int getTruckID() { return truckID; }
-	public String getLicensePlate() { return licensePlate; }
-	public String getTruckModel() { return truckModel; }
-	public boolean isAvailable() { return available; }
-	public int getTimeLeft() { return timeLeft; }
-	public ArrayList<Package> getPackages() { return packages; }
-	public String toString() { return "truckID=" + truckID + ", licensePlate=" + licensePlate + ", truckModel=" + truckModel + ", available= " + available ; }
-	public boolean equals(Object object) {
-		if(object == null || this.getClass() != object.getClass()) 
-			return false; 
-		Truck other = (Truck)object;
-		return truckID == other.truckID && licensePlate.equals(other.licensePlate) && truckModel.equals(other.truckModel) && available == other.available && timeLeft == other.timeLeft && packages.equals(other.packages);
+
+	
+	public void setTimeLeft(int timeLeft) {
+		this.timeLeft = timeLeft;
 	}
+
+
+	@Override
+	public String toString() {
+		return "truckID=" + truckID + ", licensePlate=" + licensePlate + ", truckModel=" + truckModel + ", available= " + available ;
+	}
+
+
+	@Override
 	public void collectPackage(Package p) {
 		setAvailable(false);
-		int time = p.getSenderAddress().getStreet()%10+1;
+		int time=p.getSenderAddress().getStreet()%10+1;
 		this.setTimeLeft(time);
 		this.packages.add(p);
 		p.setStatus(Status.COLLECTION);
 		p.addTracking(new Tracking(MainOffice.getClock(), this, p.getStatus()));
-		System.out.println(getName() + " is collecting package " + p.getPackageID() + ", time to arrive: " + getTimeLeft()  );
+		System.out.println(getName() + " is collecting package " + p.getPackageID() + ", time to arrive: "+ getTimeLeft()  );
 	}
+
+
+	public boolean isAvailable() {
+		return available;
+	}
+	
+
+	public int getTruckID() {
+		return truckID;
+	}
+
+	
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+	
+	
+	public void addPackage(Package p) {
+		this.packages.add(p);
+	}
+	
+	
+	public String getName() {
+		return this.getClass().getSimpleName()+" "+ getTruckID();
+	}
+	
 }
