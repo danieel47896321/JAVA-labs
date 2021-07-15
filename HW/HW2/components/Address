@@ -1,50 +1,22 @@
 package components;
 
-/**
- * The Class Address.
- */
 public class Address {
-	
-	/** The zip. */
 	public final int zip;
-	
-	/** The street. */
 	public final int street;
 	
-	/**
-	 * Instantiates a new address.
-	 *
-	 * @param zip the zip
-	 * @param street the street
-	 */
 	public Address(int zip, int street ) {
 		this.zip=zip;
 		this.street=street;
 	}
 
-	/**
-	 * Gets the zip.
-	 *
-	 * @return the zip
-	 */
 	public int getZip() {
 		return zip;
 	}
 
-	/**
-	 * Gets the street.
-	 *
-	 * @return the street
-	 */
 	public int getStreet() {
 		return street;
 	}
 	
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 */
 	@Override
 	public String toString() {
 		return zip + "-" + street;
