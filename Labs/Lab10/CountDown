@@ -1,0 +1,20 @@
+
+package lab10;
+
+public class CountDown implements Runnable{
+	private int count;
+	private int task;
+	public CountDown(int task, int count){
+		this.task = task;
+		this.count = count;
+	}	
+	public void run(){
+		while(count>=0) {
+		   System.out.println("Task " + task + ", count = " + count);
+		   count-=1;
+		   try { Thread.sleep((int)(Math.random()*200)); }
+		   catch (InterruptedException e) { e.printStackTrace(); }
+		  }
+		Thread.yield();
+	 }
+}
