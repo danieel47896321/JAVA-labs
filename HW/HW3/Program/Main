@@ -1,0 +1,145 @@
+package Program;
+
+import javax.swing.*;
+
+import components.Branch;
+import components.MainOffice;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+
+/**
+ * The Class Main.
+ */
+public class Main extends JFrame implements ActionListener{
+   
+   /** The Constant serialVersionUID. */
+   private static final long serialVersionUID = 1L;
+   
+   /** The panel. */
+   private PostSystemPanel panel;
+   
+   /** The Items. */
+   private String[] Items = {"Exit","Clone Branch","Restore","Show Report"};
+   
+   /** The m 4. */
+   private JMenu m1,m2,m3,m4;
+   
+   /** The mi. */
+   private JMenuItem[] mi;
+   
+   /** The mb. */
+   private JMenuBar mb;
+   
+   /** The restore. */
+   private ArrayList<Branch> restore = new ArrayList<Branch>();
+
+   
+   /**
+    * The main method.
+    *
+    * @param args the arguments
+    * @throws IOException Signals that an I/O exception has occurred.
+    */
+   public static void main(String[]args) throws IOException {
+	   Main fr = new Main();
+   	   FileWriter myWriter = new FileWriter("tracking.txt");
+   	   myWriter.close();
+	   fr.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+	   fr.setSize(1200,700);
+	   fr.setVisible(true);
+   }
+   
+   /**
+    * Instantiates a new main.
+    */
+   public Main() {
+	    super("Post tracking system");
+	    panel = new PostSystemPanel(this);
+	    add(panel);
+	    panel.setVisible(true);
+	    mb = new JMenuBar();
+		m1 = new JMenu("File");
+		m2 = new JMenu("CloneBranch");
+		m3 = new JMenu("Restore");
+		m4 = new JMenu("Report");
+		
+		mi = new JMenuItem[Items.length];
+		for(int i=0;i<Items.length;i++) {
+		    mi[i]=new JMenuItem(Items[i]);
+		    mi[i].addActionListener(this);
+		}
+		m1.add(mi[0]);
+		m2.add(mi[1]);
+		m3.add(mi[2]);
+		m4.add(mi[3]);
+		mb.add(m1);
+		mb.add(m2);
+		mb.add(m3);
+		mb.add(m4);
+	    setJMenuBar(mb);
+   }
+   
+   /**
+    * Action performed.
+    *
+    * @param e the e
+    */
+   public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == mi[0])
+			System.exit(0);
+		else if(e.getSource() == mi[1])
+			CloneBranch();
+		else if(e.getSource() == mi[2])
+			Restore();
+		else if(e.getSource() == mi[3])
+			Report();
+	}
+
+   /**
+    * Clone branch.
+    */
+   @SuppressWarnings("static-access")
+public void CloneBranch() {
+		if(MainOffice.getMainOfficeInstance()!=null && MainOffice.getMainOfficeInstance().getHub()!=null) {
+			ArrayList<String> branch = new ArrayList<String>();
+			for(int i=0;i<MainOffice.getMainOfficeInstance().getHub().getBranches().size();i++)
+				branch.add("Branch "+ (i+1));
+			String options[] = new String[branch.size()];
+			for(int i=0;i<branch.size();i++)
+				options[i] = branch.get(i);
+		    int num = JOptionPane.showOptionDialog(null, "Choose Branch to Clone:","Clone Branch", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+			Branch temp = new Branch();
+			temp = MainOffice.getMainOfficeInstance().getHub().getBranches().get(num);
+			MainOffice.getMainOfficeInstance().getHub().getBranches().add(temp);
+			restore.add(temp);
+			this.paintComponents(getGraphics());
+			PostSystemPanel.branchesNumber = branch.size()+1;
+			repaint();
+		}
+   }
+   
+   /**
+    * Restore.
+    */
+   @SuppressWarnings("static-access")
+public void Restore() {
+	   if(restore.size() > 0) {
+		   PostSystemPanel.branchesNumber =  MainOffice.getMainOfficeInstance().getHub().getBranches().size()-1;
+		   MainOffice.getMainOfficeInstance().getHub().getBranches().remove(restore.get(restore.size()-1));
+		   restore.remove(restore.size()-1);
+		   repaint();
+	   }
+   }
+   
+   /**
+    * Report.
+    */
+   public void Report() {
+		  CreateReportDialog dial = new CreateReportDialog(this,"Show Report","tracking.txt");
+		  dial.setVisible(true);
+   }
+}
