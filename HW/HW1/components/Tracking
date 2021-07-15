@@ -1,27 +1,26 @@
 package components;
+
 public class Tracking {
-	private final int time;
-	private final Node node;
-	private final Status status;
-	public Tracking(int time,Node node,Status status) {
+	public final int time;
+	public final Node node;
+	public final Status status;
+	
+	public Tracking(int time, Node node, Status status) {
+		super();
 		this.time = time;
 		this.node = node;
 		this.status = status;
 	}
-	public Tracking (Node node, Status status) { this(MainOffice.getClock(),node,status); }
-	public int getTime() { return time; }
-	public Node getNode() { return node; }
-	public Status getStatus() { return status; }
+
+	public Tracking (Node node, Status status) {
+		this(MainOffice.getClock(),node,status);
+	}
+	
+	@Override
 	public String toString() {
-		String name = "Customer";
-		if(node!=null)
-			name = node.getName();
-		return  time + ": " + name + ", status=" + status;
+		String name = (node==null)? "Customer" : node.getName();
+		return time + ": " + name + ", status=" + status;
 	}
-	public boolean equals(Object object) {
-		if(object == null || getClass() != object.getClass()) 
-			return false;
-		Tracking other = (Tracking)object;
-		return time == other.time && status == other.status && node.equals(other.node);
-	}
+
+	
 }
