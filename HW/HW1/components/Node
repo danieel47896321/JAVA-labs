@@ -1,7 +1,0 @@
-package components;
-public interface Node {
-	void collectPackage(Package p);
-	void deliverPackage(Package p);
-	void work();
-	public String getName();
-}
